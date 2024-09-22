@@ -1,7 +1,7 @@
 import { Button } from "@material-tailwind/react";
 import React from "react";
 
-const Intro = () => {
+const Hero = () => {
   return (
     <div className="mt-10 mx-auto max-w-4xl">
       <h1 className="font-semibold text-3xl text-center">
@@ -16,9 +16,8 @@ const Intro = () => {
         الذكاء الاصطناعي وتفاسير كبار المفسرين والمشايخ وعلم النفس وتأكد بنفسك
         من دقته وشموليته.
       </h2>
-
     </div>
   );
 };
 
-export default Intro;
+export default Hero;
