@@ -8,11 +8,15 @@ export const user_data =
 
 const apiInstance = axios.create({
   baseURL: API_URL,
-  headers: {
-    "Content-Type": "application/json",
- 
-  },
 });
 
+apiInstance.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
+apiInstance.defaults.headers.post["Access-Control-Allow-Credentials"] = "true";
+apiInstance.defaults.headers.post["Access-Control-Allow-Headers"] =
+  "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization";
+apiInstance.defaults.headers.post["Access-Control-Allow-Methods"] =
+  "GET,POST,PUT,PATCH,DELETE,OPTIONS";
+apiInstance.defaults.headers.post["Content-Type"] = "application/json";
 
 export { apiInstance };
+
