@@ -1,16 +1,13 @@
 import React from "react";
-import { NavbarSimple } from "../navbar/NavbarSimple";
 import Hero from "./Hero";
 import Queries from "./Queries";
 import Dream from "./Dream";
 import Questions from "./Questions";
 import Articles from "./Articles";
-import Footer from "./Footer";
 
 const HomePage = () => {
   return (
     <>
-      <NavbarSimple />
       <Hero />
       <Queries
         parag="
@@ -27,7 +24,6 @@ const HomePage = () => {
       />
       <Questions />
       <Articles />
-      <Footer />
     </>
   );
 };

@@ -7,8 +7,10 @@ import {
 } from "@material-tailwind/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import logo from "../../assets/dream.png";
+import { useNavigate } from "react-router-dom";
 
 function NavList() {
+  const navigate = useNavigate();
   return (
     <ul className="my-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
       <Typography
@@ -19,6 +21,7 @@ function NavList() {
       >
         <a
           href="#"
+          onClick={() => navigate("/policies")}
           className="flex items-center hover:text-blue-500 transition-colors"
         >
           الشروط والاحكام
@@ -33,6 +36,7 @@ function NavList() {
         <a
           href="#"
           className="flex items-center hover:text-blue-500 transition-colors"
+          onClick={() => navigate("/privacypolicy")}
         >
           سياسة الخصوصيه
         </a>
@@ -116,7 +120,11 @@ export function NavbarSimple() {
           variant="h6"
           className="mr-4 cursor-pointer py-1.5 font-sans"
         >
-          <img src={logo} className="w-[25%] h-[25%]" />
+          <img
+            src={logo}
+            onClick={() => navigate("/")}
+            className="w-[25%] h-[25%]"
+          />
         </Typography>
         <div className="hidden lg:block">
           <NavList />
