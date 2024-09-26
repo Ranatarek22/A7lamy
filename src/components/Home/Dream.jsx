@@ -24,7 +24,7 @@ const Dream = () => {
     try {
       const formData = new FormData();
       formData.append("content", dreamText);
-      formData.append("token", "jkkjljkh");
+      formData.append("token", "X");
 
       const res = await apiInstance.post("/ask", formData, {
         headers: {
