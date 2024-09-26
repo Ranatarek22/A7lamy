@@ -19,4 +19,3 @@ apiInstance.defaults.headers.post["Access-Control-Allow-Methods"] =
 apiInstance.defaults.headers.post["Content-Type"] = "application/json";
 
 export { apiInstance };
-
