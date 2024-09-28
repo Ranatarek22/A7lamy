@@ -6,7 +6,9 @@ import { useNavigate } from "react-router-dom";
 const Dream = () => {
   const [dreamText, setDreamText] = useState("");
   const [response, setResponse] = useState("");
-  const [token, setToken] = useState("X");
+  const [token, setToken] = useState(
+    () => localStorage.getItem("token") || "X"
+  );
   const [isFreeTrialUsed, setIsFreeTrialUsed] = useState(false);
   const navigate = useNavigate();
 
@@ -36,7 +38,7 @@ const Dream = () => {
       });
 
       setToken(res.data.message);
-      console.log(res.data);
+      console.log(token);
       setResponse(res.data.data);
       localStorage.setItem("token", token);
       localStorage.setItem("freeTrialUsed", "true");
@@ -50,6 +52,8 @@ const Dream = () => {
     let newToken = localStorage.getItem("token");
     console.log(newToken);
     setToken(newToken);
+    console.log(token);
+
     try {
       const res = await apiInstance.get(`/payment`, {
         params: { token },
