@@ -24,10 +24,7 @@ const Dream = () => {
   const submitDream = async (e) => {
     e.preventDefault();
 
-    if (isFreeTrialUsed) {
-      setResponse("لقد استنفدت محاولتك المجانية. يرجى الشحن لإكمال العملية.");
-      return;
-    } else if (isFreeTrialUsed && token !== "X") {
+    if (isFreeTrialUsed && token !== "X") {
       try {
         const formData = new FormData();
         formData.append("content", dreamText);
@@ -39,12 +36,20 @@ const Dream = () => {
           },
         });
 
-        const newToken = setToken(res.data.message);
-        console.log(token);
-        setResponse(res.data.data);
-        localStorage.setItem("token", newToken);
-        localStorage.setItem("freeTrialUsed", "true");
-        setIsFreeTrialUsed(true);
+        if (res.status === 200) {
+          // Success logic for status 200
+          const newToken = res.data.message;
+          setToken(newToken);
+          console.log(token);
+
+          setResponse(res.data.data);
+          localStorage.setItem("token", newToken);
+          localStorage.setItem("freeTrialUsed", "true");
+          setIsFreeTrialUsed(true);
+        } else if (res.status === 403 || res.status === 404) {
+          // Logic for status 403 or 404
+          setResponse(res.data.data);
+        }
       } catch (error) {
         console.error("Error fetching the response:", error);
         setResponse("حدث خطأ أثناء جلب التفسير.");
@@ -61,13 +66,25 @@ const Dream = () => {
           },
         });
 
-        const newToken = setToken(res.data.message);
-        console.log(token);
-        setResponse(res.data.data);
-        localStorage.setItem("token", newToken);
-        localStorage.setItem("freeTrialUsed", "true");
-        setIsFreeTrialUsed(true);
+        if (res.status === 200) {
+          // Success logic for status 200
+          const newToken = res.data.message;
+          setToken(newToken);
+          console.log(token);
+
+          setResponse(res.data.data);
+          localStorage.setItem("token", newToken);
+          localStorage.setItem("freeTrialUsed", "true");
+          setIsFreeTrialUsed(true);
+          console.log(res.status);
+        } else if (res.status === 403 || res.status === 404) {
+          // Logic for status 403 or 404
+
+          console.log(res.status);
+          setResponse(res.data.data);
+        }
       } catch (error) {
+        console.log(token);
         console.error("Error fetching the response:", error);
         setResponse("حدث خطأ أثناء جلب التفسير.");
       }
