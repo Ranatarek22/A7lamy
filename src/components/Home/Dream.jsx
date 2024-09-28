@@ -15,7 +15,7 @@ const Dream = () => {
   useEffect(() => {
     const hasUsedTrial = localStorage.getItem("freeTrialUsed");
     let newToken = localStorage.getItem("token") || "X";
-    console.log(newToken);
+    console.log("new token" + newToken);
     setToken(newToken);
     if (hasUsedTrial === "true") {
       setIsFreeTrialUsed(true);
