@@ -1,11 +1,14 @@
 import { Textarea, Button, IconButton } from "@material-tailwind/react";
 import React, { useEffect, useState } from "react";
 import { apiInstance } from "../../axios";
+import { useNavigate } from "react-router-dom";
 
 const Dream = () => {
   const [dreamText, setDreamText] = useState("");
   const [response, setResponse] = useState("");
+  const [token, setToken] = useState("X");
   const [isFreeTrialUsed, setIsFreeTrialUsed] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const hasUsedTrial = localStorage.getItem("freeTrialUsed");
@@ -24,14 +27,26 @@ const Dream = () => {
     try {
       const formData = new FormData();
       formData.append("content", dreamText);
-      formData.append("token", "X");
+      formData.append("token", token);
 
       const res = await apiInstance.post("/ask", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log(res.data.data);
+      // token = res.data.message;
+
+      setToken(res.data.message);
+      // const resPay = await apiInstance.get(`/payment`, {
+      //   params: { token },
+      //   headers: {
+      //     "ngrok-skip-browser-warning": "true",
+      //   },
+      // });
+      // navigate(`/${resPay.data}`);
+      // console.log(resPay.data);
+      console.log(res.data);
+
       setResponse(res.data.data);
 
       localStorage.setItem("freeTrialUsed", "true");
@@ -39,6 +54,21 @@ const Dream = () => {
     } catch (error) {
       console.error("Error fetching the response:", error);
       setResponse("حدث خطأ أثناء جلب التفسير.");
+    }
+  };
+  const payment = async () => {
+    try {
+      const res = await apiInstance.get(`/payment`, {
+        params: { token },
+        headers: {
+          "ngrok-skip-browser-warning": "true",
+        },
+      });
+      // navigate(`/${res.data}`);
+      window.location.href = res.data;
+      console.log(res.data);
+    } catch (error) {
+      console.error("Error fetching ", error);
     }
   };
 
@@ -95,8 +125,8 @@ const Dream = () => {
             <p>لقد استنفدت محاولتك المجانية.</p>
             <Button
               size="sm"
-              className="py-2 px-4 rounded-full w-1/2 text-center bg-red-400 text-white"
-              onClick={recharge}
+              className="py-2 px-4 rounded-full w-[25%] text-center bg-red-400 text-white"
+              onClick={payment}
             >
               شحن
             </Button>
