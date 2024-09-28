@@ -64,9 +64,10 @@ const Dream = () => {
           "ngrok-skip-browser-warning": "true",
         },
       });
-      // navigate(`/${res.data}`);
-      window.location.href = res.data;
-      console.log(res.data);
+   
+
+      window.location.href = res.data.data;
+  
     } catch (error) {
       console.error("Error fetching ", error);
     }
