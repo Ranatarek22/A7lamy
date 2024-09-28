@@ -35,12 +35,14 @@ const Dream = () => {
             "Content-Type": "multipart/form-data",
           },
         });
-
+        const newToken = res.data.message;
+        setToken(newToken);
+        console.log(token);
         if (res.status === 200) {
           // Success logic for status 200
-          const newToken = res.data.message;
-          setToken(newToken);
-          console.log(token);
+          // const newToken = res.data.message;
+          // setToken(newToken);
+          // console.log(token);
 
           setResponse(res.data.data);
           localStorage.setItem("token", newToken);
@@ -59,13 +61,15 @@ const Dream = () => {
         const formData = new FormData();
         formData.append("content", dreamText);
         formData.append("token", token);
-
+        console.log(token + "token");
         const res = await apiInstance.post("/ask", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         });
-
+        const newToken = res.data.message;
+        setToken(newToken);
+        console.log(token);
         if (res.status === 200) {
           // Success logic for status 200
           const newToken = res.data.message;
