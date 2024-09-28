@@ -14,9 +14,9 @@ const Dream = () => {
 
   useEffect(() => {
     const hasUsedTrial = localStorage.getItem("freeTrialUsed");
-    let newToken = localStorage.getItem("token") || "X";
-    console.log("new token" + newToken);
-    setToken(newToken);
+    // let newToken = localStorage.getItem("token") || "X";
+    // console.log("new token" + newToken);
+    // setToken(newToken);
     if (hasUsedTrial === "true") {
       setIsFreeTrialUsed(true);
     }
@@ -27,35 +27,65 @@ const Dream = () => {
     if (isFreeTrialUsed) {
       setResponse("لقد استنفدت محاولتك المجانية. يرجى الشحن لإكمال العملية.");
       return;
-    }
+    } else if (isFreeTrialUsed && token !== "X") {
+      try {
+        const formData = new FormData();
+        formData.append("content", dreamText);
+        formData.append("token", token);
 
-    try {
-      const formData = new FormData();
-      formData.append("content", dreamText);
-      formData.append("token", token);
+        const res = await apiInstance.post("/ask", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
 
-      const res = await apiInstance.post("/ask", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+        const newToken = setToken(res.data.message);
+        console.log(token);
+        setResponse(res.data.data);
+        localStorage.setItem("token", newToken);
+        localStorage.setItem("freeTrialUsed", "true");
+        setIsFreeTrialUsed(true);
+      } catch (error) {
+        console.error("Error fetching the response:", error);
+        setResponse("حدث خطأ أثناء جلب التفسير.");
+      }
+    } else if (isFreeTrialUsed === false) {
+      try {
+        const formData = new FormData();
+        formData.append("content", dreamText);
+        formData.append("token", token);
 
-      setToken(res.data.message);
-      console.log(token);
-      setResponse(res.data.data);
-      localStorage.setItem("token", token);
-      localStorage.setItem("freeTrialUsed", "true");
-      setIsFreeTrialUsed(true);
-    } catch (error) {
-      console.error("Error fetching the response:", error);
-      setResponse("حدث خطأ أثناء جلب التفسير.");
+        const res = await apiInstance.post("/ask", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+
+        const newToken = setToken(res.data.message);
+        console.log(token);
+        setResponse(res.data.data);
+        localStorage.setItem("token", newToken);
+        localStorage.setItem("freeTrialUsed", "true");
+        setIsFreeTrialUsed(true);
+      } catch (error) {
+        console.error("Error fetching the response:", error);
+        setResponse("حدث خطأ أثناء جلب التفسير.");
+      }
     }
   };
   const payment = async () => {
     let newToken = localStorage.getItem("token");
     console.log(newToken);
-    setToken(newToken);
-    console.log(token);
+    if (isFreeTrialUsed === "true") {
+      if (newToken !== "X") {
+        setToken(newToken);
+      } else if (token !== "X") {
+        setToken(token);
+      }
+    } else {
+      setToken(token);
+    }
+    console.log("payment token " + token);
 
     try {
       const res = await apiInstance.get(`/payment`, {
