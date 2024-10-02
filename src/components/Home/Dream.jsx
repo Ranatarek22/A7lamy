@@ -21,6 +21,8 @@ const Dream = () => {
       setIsFreeTrialUsed(true);
     }
   }, []);
+  console.log(token);
+
   const submitDream = async (e) => {
     e.preventDefault();
 
@@ -39,7 +41,6 @@ const Dream = () => {
         setToken(newToken);
         console.log(token);
         if (res.status === 200) {
-          // Success logic for status 200
           // const newToken = res.data.message;
           // setToken(newToken);
           // console.log(token);
@@ -49,7 +50,7 @@ const Dream = () => {
           localStorage.setItem("freeTrialUsed", "true");
           setIsFreeTrialUsed(true);
         } else if (res.status === 403 || res.status === 404) {
-          // Logic for status 403 or 404
+
           setResponse(res.data.data);
         }
       } catch (error) {
